@@ -42,7 +42,7 @@ Servo xServo;
 Servo yServo;
 
 
-#define rfReceivePin A0  //RF Receiver pin = Analog pin 0
+#define rfReceivePin A1  //RF Receiver pin = Analog pin 0
 
 unsigned int data = 0;   // variable used to store received data
 const unsigned int upperThreshold = 70;  //upper threshold value
