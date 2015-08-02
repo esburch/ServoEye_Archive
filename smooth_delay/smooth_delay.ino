@@ -35,27 +35,30 @@ const int eyeTable[] = {
   134, 135, 135, 135
 };
 
-const int button = 2;
 
 Servo blinkServo;
 Servo shiftServo;
 Servo xServo;
 Servo yServo;
 
+
+#define rfReceivePin A0  //RF Receiver pin = Analog pin 0
+
+unsigned int data = 0;   // variable used to store received data
+const unsigned int upperThreshold = 70;  //upper threshold value
+const unsigned int lowerThreshold = 50;  //lower threshold value
+ 
 void setup(){
   
   setupBlinkServo();  
   setupShiftServo();
   setupEyeServo();
-  pinMode(button, INPUT);
-  digitalWrite(button, HIGH);
-  
 }
 
 
 void loop(){
-
-    if (digitalRead(button) == LOW)
+    data=analogRead(rfReceivePin);
+    if (data>upperThreshold)
       {
       attach();
       delay(600);
