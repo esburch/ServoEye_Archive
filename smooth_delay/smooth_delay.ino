@@ -47,16 +47,24 @@ Servo yServo;
 unsigned int data = 0;   // variable used to store received data
 const unsigned int upperThreshold = 70;  //upper threshold value
 const unsigned int lowerThreshold = 50;  //lower threshold value
+
+const int switchPin = 17; //A3 pin used as digital
+int switchState = 0;
  
 void setup(){
   
   setupBlinkServo();  
   setupShiftServo();
   setupEyeServo();
+  pinMode(switchPin, INPUT);    
+  digitalWrite(switchPin, HIGH); // turn on pullup resistors 
 }
 
 
 void loop(){
+  
+ switchState = digitalRead(switchPin);
+ if (switchState == HIGH) {
     data=analogRead(rfReceivePin);
     if (data>upperThreshold)
       {
@@ -88,9 +96,16 @@ void loop(){
        
      }
       detach();
-       
-  
-
+ }
+ else{
+   attach();
+   while(switchState == LOW){
+     blinkServo.write(80);
+     switchState = digitalRead(switchPin);
+   }
+   close();
+}
+detach();
 }
 
 /***********************************
